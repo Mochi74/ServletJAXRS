@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Nice display of web statistic</title>
+</head>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<body>
+<div>
+	<div class="left">
+		<H1>Visit per Country</H1>
+			<div id=chartdivCountry></div>
+	</div>
+	<div class="right">
+		<H1>Visit per Browser</H1>
+			<div id=chartdivBrowser></div>
+	</div>
+<div style="width: 100%;  float: left;" >
+		<H1>Visit per day of week</H1>
+			<div id=chartdivDay style="height:500px;"></div>
+</div>
+</div>
+
+<script>
+//Set theme
+am4core.useTheme(am4themes_animated);
+
+// Create chart instance
+var chartPerCountry = am4core.create("chartdivCountry", am4charts.PieChart);
+var chartPerBrowser = am4core.create("chartdivBrowser", am4charts.PieChart);
+var chartPerDay = am4core.create("chartdivDay", am4charts.XYChart);
+
+
+// Make it nicer
+chartPerCountry.innerRadius = am4core.percent(40);
+chartPerBrowser.innerRadius = am4core.percent(10);
+
+
+chartPerCountry.dataSource.url = "./getStat/country";
+chartPerBrowser.dataSource.url = "./getStat/browser";
+chartPerDay.dataSource.url = "./getStat/day";
+
+
+// Add and configure Series per Country
+var pieSeriesCountry = chartPerCountry.series.push(new am4charts.PieSeries());
+pieSeriesCountry.dataFields.value = "visit";
+pieSeriesCountry.dataFields.category = "value";
+pieSeriesCountry.slices.template.stroke = am4core.color("#D4B8B8");
+pieSeriesCountry.slices.template.strokeWidth = 2;
+pieSeriesCountry.slices.template.strokeOpacity = 1;
+
+//Add and configure Series per Browser
+var pieSeriesBrowser = chartPerBrowser.series.push(new am4charts.PieSeries());
+pieSeriesBrowser.dataFields.value = "visit";
+pieSeriesBrowser.dataFields.category = "value";
+pieSeriesBrowser.slices.template.stroke = am4core.color("#D4B8B8");
+pieSeriesBrowser.slices.template.strokeWidth = 2;
+pieSeriesBrowser.slices.template.strokeOpacity = 1;
+
+
+//Add and configure Series per day
+chartPerDay.marginRight = 400;
+
+
+// Create axes
+var categoryAxis = chartPerDay.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "value";
+categoryAxis.title.text = "Day of Week";
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.minGridDistance = 20;
+
+
+var  valueAxis = chartPerDay.yAxes.push(new am4charts.ValueAxis());
+valueAxis.title.text = "visit #";
+
+// Create series
+var series = chartPerDay.series.push(new am4charts.ColumnSeries());
+series.dataFields.valueY = "visit";
+series.dataFields.categoryX = "value";
+series.name = "visit #";
+series.tooltipText = "{name}: [bold]{valueY}[/]";
+series.stacked = true;
+
+// Add cursor
+chartPerDay.cursor = new am4charts.XYCursor();
+
+</script>
+
+
+
+
+
+</body>
+</html>

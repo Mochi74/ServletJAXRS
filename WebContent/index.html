@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Page Surveillée</title>
+</head>
+
+<script type="text/javascript" src="http://www.visitorjs.com/visitor.js?key=YOUR_KEY"></script>
+<script src="./jquery-3.3.1.js" type="text/javascript"></script>
+
+
+<body>
+Je passe l'appel ajax vers ".stat"
+Avec le Json suivant:
+<p id="objetJson"></p> 
+
+</body>
+
+<script>
+
+	var obj = {
+			date:	visitor.session.sessionStart, 
+			ip:		visitor.ip.address,
+			pays:	visitor.geo.countryName,
+			browser:visitor.browser.name,	 
+			count:	visitor.session.visitCount
+			};
+	console.log(visitor);
+	console.log(JSON.stringify(obj));
+	
+    $.ajax({
+            type: 'post',
+   /*         url: "http://localhost:8080/TP-Servlet-JSP/stat",*/
+  	        url: "./stat",
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8"
+         	}).done(function (listdata) {
+				console.log("ajax done");
+             	console.log(listdata);
+            	});          
+
+    document.getElementById("objetJson").innerHTML = JSON.stringify(obj);
+        
+</script>
+</html>
+
+

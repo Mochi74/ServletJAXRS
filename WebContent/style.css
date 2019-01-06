@@ -1,0 +1,14 @@
+div.left {
+	width: 50%;
+	height: 300px;
+	float: left
+}
+
+div.right {
+    margin-left: 50%; 
+    height: 300px;
+}
+
+H1 {
+	margin-top: 0px;	
+}
